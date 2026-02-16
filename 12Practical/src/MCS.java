@@ -24,7 +24,7 @@ public class MCS {
                 }
             }
         }
-        return max;
+        return Max;
     }
 
 
