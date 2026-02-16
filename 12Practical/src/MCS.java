@@ -52,7 +52,9 @@ public class MCS {
         int n=X.length;
         int[] totalTo=new int[n+1];
 
-        for (int r = 0; r < n; r++) {
+        totalTo[0]=0;
+
+        for (int r = 1; r < n; r++) {
             totalTo[r]=totalTo[r-1]+X[r-1];
         }
 
