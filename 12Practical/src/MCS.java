@@ -70,5 +70,16 @@ public class MCS {
         return Max;
     }
 
+    //Implementation  of O(n)
+    public static int mcsOn0(int[] X){
+        int Max=0;
+        int MaxFinal=0;
 
+        for (int r = 0; r < X.length; r++) {
+            MaxFinal=Math.max(MaxFinal+X[r],0);
+            countOn0++;
+            Max=Math.max(Max,MaxFinal);
+        }
+        return Max;
+    }
 }
