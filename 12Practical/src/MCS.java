@@ -82,4 +82,42 @@ public class MCS {
         }
         return Max;
     }
+
+    //Main method
+    public static void main(String[] args) {
+        int[] ages={1,2,3,4,5,6,7,8,9,10};
+
+        for(int n:ages){
+            countOn3=0;
+            countOn2A=0;
+            countOn2B=0;
+            countOn0=0;
+
+            int[] X=generateArray(n);
+            mcsOn3(X);
+            mcsOn2A(X);
+            mcsOn2B(X);
+            mcsOn0(X);
+
+            System.out.println("n= "+n);
+            System.out.println("O(n^3) count= "+countOn3);
+            System.out.println("O(n^2)A count= "+countOn2A);
+            System.out.println("O(n^2)B count= "+countOn2B);
+            System.out.println("O(n^0)A count= "+countOn0);
+            System.out.println("-------------------------------");
+        }
+    }
+    public static int[] generateArray(int n){
+        Random rand=new Random();
+        int[] X=new int[n];
+
+        for (int r = 0; r < n; r++) {
+            int value=rand.nextInt(n)+1;
+            if (rand.nextBoolean()){
+                value*=-1;
+            }
+            X[r]=value;
+        }
+        return X;
+    }
 }
