@@ -28,4 +28,23 @@ public class MCS {
     }
 
 
+    //Implementing o(n^2)
+    public static int mcsOn2(int[] X){
+        int n=X.length;
+        int Max=0;
+
+        for (int i = 0; i < n; i++) {
+            int total=0;
+            for (int k = 0; k < n; k++) {
+                total+=X[k];
+                countOn2++;
+                if (total>Max){
+                    Max=total;
+                }
+            }
+        }
+        return Max;
+    }
+
+
 }
