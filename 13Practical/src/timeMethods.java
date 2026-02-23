@@ -1,5 +1,3 @@
-import org.w3c.dom.Node;
-
 import java.lang.Math.*;
 import java.io.*;
 import java.text.*;
@@ -37,7 +35,7 @@ public class timeMethods{
                     data=parts[1];
                 }
 
-                arr[index]=new Recordnote(key,data);
+                arr[index]=new RecordNode(key,data);
                 index++;
             }
             br.close();
@@ -47,19 +45,39 @@ public class timeMethods{
             return;
         }
 
+        sortArray(arr,n);
+
+        int[] searchkeys=new int[30];
+        for (int i = 0; i < 30; i++) {
+            searchkeys[i]=(int)(Math.random()*32654)+1;
+        }
+
         for(repetition = 0; repetition < repetitions; repetition++) {
             start = System.currentTimeMillis();
+            for(int i=0;i<30;i++){
+                linearsearch (arr,n,searchkeys[i]);
+            }
+            finish = System.currentTimeMillis();
 
-            // call the procedures to time here:
-            linearsearch (...);
-            binarysearch (...);
-            // Figure out how to alter this guideline here,
+            time = (double)(finish - start);
+            runTime += time;
+            runTime2 += (time*time);
+
+            for(repetition = 0; repetition < repetitions; repetition++) {
+                start = System.currentTimeMillis();
+
+                for(int i=0;i<30;i++){
+                    binarysearch(arr,0,n-1,searchkeys[i]);
+                }
+                finish = System.currentTimeMillis();
+            }
 
             finish = System.currentTimeMillis();
 
             time = (double)(finish - start);
             runTime += time;
-            runTime2 += (time*time); }
+            runTime2 += (time*time);
+        }
 
         double aveRuntime = runTime/repetitions;
         double stdDeviation =
