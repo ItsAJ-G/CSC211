@@ -1,9 +1,11 @@
+import org.w3c.dom.Node;
+
 import java.lang.Math.*;
 import java.io.*;
 import java.text.*;
 
 public class timeMethods{
-    public static int N = ....;
+    public static int N =30000;
     public static void main(String args[]){
 
         DecimalFormat twoD = new DecimalFormat("0.00");
@@ -11,12 +13,40 @@ public class timeMethods{
         DecimalFormat fiveD = new DecimalFormat("0.00000");
 
         long start, finish;
-        double runTime = 0, runTime2 = 0, time;
+        double runTime = 0, runTime2 = 0;
         double totalTime = 0.0;
+        double time;
+
         int n = N;
         int repetition, repetitions = 30;
-
         runTime = 0;
+
+        RecordNode[] arr=new RecordNode[N];
+        int index=0;
+
+        try{
+            BufferedReader br=new BufferedReader(new FileReader("ulysses.numbered"));
+            String line;
+            while ((line= br.readLine()) !=null && index<N){
+                String[] parts=line.split(" ",2);
+
+                int key=Integer.parseInt(parts[0]);
+                String data="";
+
+                if (parts.length>1){
+                    data=parts[1];
+                }
+
+                arr[index]=new Recordnote(key,data);
+                index++;
+            }
+            br.close();
+
+        }catch (Exception e){
+            System.out.println("Error");
+            return;
+        }
+
         for(repetition = 0; repetition < repetitions; repetition++) {
             start = System.currentTimeMillis();
 
