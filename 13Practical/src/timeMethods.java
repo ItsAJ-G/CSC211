@@ -1,19 +1,19 @@
 import java.io.*;
 import java.text.*;
+import java.util.Locale;
 
 public class timeMethods {
     public static int N = 30000;
 
-    public static void main(String args[]) {
-
-        DecimalFormat twoD = new DecimalFormat("0.00");
+    public static void main(String[] args) {
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+        DecimalFormat twoD=new DecimalFormat("0.00",symbols);
         DecimalFormat fourD = new DecimalFormat("0.0000");
         DecimalFormat fiveD = new DecimalFormat("0.00000");
 
         long start, finish;
         double runTimeLinear = 0, runTime2Linear = 0;
         double runTimeBinary = 0, runTime2Binary = 0;
-        double totalTime = 0.0;
         double time;
 
         int n = N;
@@ -24,7 +24,7 @@ public class timeMethods {
         int index = 0;
 
         try {
-            BufferedReader br = new BufferedReader(new FileReader("ulysses.numbered"));
+            BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\nathi\\Downloads\\CSC211\\13Practical\\src\\ulysses.numbered"));
             String line;
             while ((line = br.readLine()) != null && index < N) {
                 String[] parts = line.split(" ", 2);
@@ -42,7 +42,7 @@ public class timeMethods {
             br.close();
 
         } catch (Exception e) {
-            System.out.println("Error");
+            System.out.println("Error No file detected!!");
             return;
         }
 
@@ -111,7 +111,7 @@ public class timeMethods {
         System.out.println("Binary Search Std Dev: " + fourD.format(stdDeviationBinary) + " milliseconds");
     }
 
-    public static RecordNote linearsearch(RecordNode[] arr, int n, int key){
+    public static RecordNode linearsearch(RecordNode[] arr, int n, int key){
         for (int i = 0; i < n; i++) {
             if (arr[i].key==key) {
                 return arr[i];
@@ -136,7 +136,7 @@ public class timeMethods {
 
     public static void sortArray(RecordNode[] arr,int n){
         for (int i = 0; i < n-1; i++) {
-            for (int j = 0; j < n-1; j++) {
+            for (int j = 0; j < n-i-1; j++) {
                 if(arr[j].key>arr[j+1].key){
                     RecordNode temp= arr[j];
                     arr[j]=arr[j+1];
