@@ -6,7 +6,7 @@ public class timeMethods {
     public static int N = 30000;
 
     public static void main(String[] args) {
-        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
         DecimalFormat twoD=new DecimalFormat("0.00",symbols);
         DecimalFormat fourD = new DecimalFormat("0.0000");
         DecimalFormat fiveD = new DecimalFormat("0.00000");
