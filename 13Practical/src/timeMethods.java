@@ -60,44 +60,38 @@ public class timeMethods{
             finish = System.currentTimeMillis();
 
             time = (double)(finish - start);
-            runTime += time;
-            runTime2 += (time*time);
+            runTimeLinear += time;
+            runTime2Linear += (time*time);
+        }
 
-            for(repetition = 0; repetition < repetitions; repetition++) {
-                start = System.currentTimeMillis();
+        for(repetition = 0; repetition < repetitions; repetition++) {
+            start = System.currentTimeMillis();
 
-                for(int i=0;i<30;i++){
-                    binarysearch(arr,0,n-1,searchkeys[i]);
-                }
-                finish = System.currentTimeMillis();
+            for(int i=0;i<30;i++){
+                binarysearch(arr,0,n-1,searchkeys[i]);
             }
-
             finish = System.currentTimeMillis();
 
             time = (double)(finish - start);
-            runTime += time;
-            runTime2 += (time*time);
+            runTimeBinary += time;
+            runTime2Binary += (time*time);
         }
 
-        double aveRuntime = runTime/repetitions;
-        double stdDeviation =
-                Math.sqrt(runTime2 - repetitions*aveRuntime*aveRuntime)/(repetitions-1);
+        double aveRuntimeLinear = runTimeLinear/repetitions;
+        double stdDeviationLinear = Math.sqrt(runTime2Linear - repetitions*aveRuntimeLinear*aveRuntimeLinear)/(repetitions-1);
 
-        System.out.printf("\n\n\fStatistics\n");
-        System.out.println("________________________________________________");
-        System.out.println("Total time   =           " + runTime/1000 + "s.");
-        System.out.println("Total time\u00b2  =           " + runTime2);
-        System.out.println("Average time =           " + fiveD.format(aveRuntime/1000)
-                + "s. " + '\u00B1' + " " + fourD.format(stdDeviation) + "ms.");
-        System.out.println("Standard deviation =     " + fourD.format(stdDeviation));
-        System.out.println("n            =           " + n);
-        System.out.println("Average time / run =     " + fiveD.format(aveRuntime/n*1000)
-                + '\u00B5' + "s. ");
+        double aveRuntimeBinary = runTimeBinary/repetitions;
+        double stdDeviationBinary = Math.sqrt(runTime2Binary - repetitions*aveRuntimeBinary*aveRuntimeBinary)/(repetitions-1);
 
-        System.out.println("Repetitions  =             " + repetitions);
+        System.out.println("\n\nLINEAR SEARCH STATISTICS");
         System.out.println("________________________________________________");
-        System.out.println();
-        System.out.println(); }	}
+        System.out.println("Total time   =           " + runTimeLinear/1000 + "s.");
+        System.out.println("Total time²  =           " + runTime2Linear);
+        System.out.println("Average time =           " + fiveD.format(aveRuntimeLinear/1000) + "s. ± " + fourD.format(stdDeviationLinear) + "ms.");
+        System.out.println("Standard deviation =     " + fourD.format(stdDeviationLinear));
+        System.out.println("Keys per run  =          30");
+        System.out.println("Repetitions   =          " + repetitions);
+        System.out.println("________________________________________________");
 
 static void oneofyourMethods(int n,
                              yourMethodParameter1,
