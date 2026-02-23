@@ -1,4 +1,3 @@
-import java.lang.Math.*;
 import java.io.*;
 import java.text.*;
 
@@ -12,13 +11,14 @@ public class timeMethods {
         DecimalFormat fiveD = new DecimalFormat("0.00000");
 
         long start, finish;
-        double runTime = 0, runTime2 = 0;
+        double runTimeLinear = 0, runTime2Linear = 0;
+        double runTimeBinary = 0, runTime2Binary = 0;
         double totalTime = 0.0;
         double time;
 
         int n = N;
         int repetition, repetitions = 30;
-        runTime = 0;
+
 
         RecordNode[] arr = new RecordNode[N];
         int index = 0;
@@ -111,7 +111,7 @@ public class timeMethods {
         System.out.println("Binary Search Std Dev: " + fourD.format(stdDeviationBinary) + " milliseconds");
     }
 
-    public static RecordNote linearsearch(RecordNote[] arr,int n,int key){
+    public static RecordNote linearsearch(RecordNode[] arr, int n, int key){
         for (int i = 0; i < n; i++) {
             if (arr[i].key==key) {
                 return arr[i];
@@ -144,5 +144,15 @@ public class timeMethods {
                 }
             }
         }
+    }
+}
+
+class RecordNode{
+    int key;
+    String data;
+
+    public RecordNode(int key,String data){
+        this.key=key;
+        this.data=data;
     }
 }
