@@ -39,7 +39,45 @@ public class Main {
         }
     }
     static long timeOpenHash(int m){
+        long total=0;
+        for (int r=0;r<REPETITIONS;r++){
+            OpenHash table=new OpenHash(m);
 
+            for (int i=0;i<USE;i++){
+                table.insert(data[i].key,data[i].value);
+            }
+
+            long start=System.nanoTime();
+
+            for (int i = 0; i < USE; i++)
+                table.lookup(data[i].key);
+
+            long end = System.currentTimeMillis();
+
+            total += (end - start);
+        }
+        return total/REPETITIONS;
+    }
+
+    static long timeChainHash(int m){
+        long total=0;
+        for (int r=0;r<REPETITIONS;r++){
+            ChainHash table=new ChainHash(m);
+
+            for (int i=0;i<USE;i++){
+                table.insert(data[i].key,data[i].value);
+            }
+
+            long start=System.nanoTime();
+
+            for (int i = 0; i < USE; i++)
+                table.lookup(data[i].key);
+
+            long end = System.currentTimeMillis();
+
+            total += (end - start);
+        }
+        return total/REPETITIONS;
     }
 
 }

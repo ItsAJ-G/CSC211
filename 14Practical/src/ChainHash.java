@@ -13,9 +13,9 @@ public class ChainHash {
         }
     }
 
-    public ChainHash() {
-        this.m=m;
-        table=new Node[m+1];
+    public ChainHash(int m) {
+        this.m= this.m;
+        table=new Node[this.m +1];
     }
 
     public int hash(String key) {
