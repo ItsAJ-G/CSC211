@@ -34,7 +34,56 @@ public class ChainHash {
                 current.value=value;
                 return;
             }
+            current=current.next;
         }
+        Node newNode=new Node(key,value);
 
+        if(head==null){
+            table[i]=newNode;
+        }
+        else{
+            current=head;
+            while(current.next!=null){
+                current=current.next;
+                current.next=newNode;
+            }
+        }
+    }
+
+    public String lookup(String key){
+        int i=hash(key);
+        Node current=table[i];
+
+        while(current!=null){
+            if(current.key.equals(key)){
+                return current.value;
+            }
+            current=current.next;
+        }
+        return null;
+    }
+
+    public boolean IsInTable(String key){
+        return (lookup(key)!=null);
+    }
+
+    public String remove(String key){
+        int i=hash(key);
+        Node current=table[i];
+        Node prev=null;
+        while(current!=null){
+            if(current.key.equals(key)){
+                if(prev==null){
+                    table[i]=current.next;
+                }
+                else{
+                    prev.next=current.next;
+                }
+                return current.value;
+            }
+            prev=current;
+            current=current.next;
+        }
+        return key;
     }
 }
