@@ -84,6 +84,6 @@ public class ChainHash {
             prev=current;
             current=current.next;
         }
-        return key;
+        return null;
     }
 }
