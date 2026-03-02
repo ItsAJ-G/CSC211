@@ -1,85 +1,83 @@
 public class OpenHash {
-    private KeyValue[] table ;
+    private KeyValue[] table;
     private int m;
     private int size;
+    private static final KeyValue DELETED = new KeyValue("", ""); // Tombstone marker
 
-    public OpenHash(int size) {
-        this.m=m;
-        table = new KeyValue[m+1];
-        size=0;
+    public OpenHash(int m) {
+        this.m = m;
+        this.table = new KeyValue[m];
+        this.size = 0;
     }
 
-    public int hash(String key) {
+    private int hash(String key) {
         int h = key.hashCode();
-        if (h < 0) h = -h;
-        return (h % m) + 1;
+        // Improved hash function to prevent negative values and spread better
+        h = h ^ (h >>> 16); // XOR high and low bits
+        return (h & 0x7fffffff) % m; // Ensure non-negative
     }
 
     public boolean isFull() {
-        return size==m;
-    }
-
-    public boolean isEmpty() {
-        return size==0;
-    }
-
-    public boolean isInTable(String key) {
-        return lookup(key) != null;
+        return size >= m / 2; // Better to not let it get completely full
     }
 
     public void insert(String key, String value) {
-        if(isFull()){
-            return;
-        }
+        if (key == null) return;
+        if (isFull()) return;
+
         int i = hash(key);
         int start = i;
+        int firstDeleted = -1;
 
-        while (table[i].key.equals(key)) {
-            table[i].value=value;
-            return;
+        // Find position to insert
+        while (table[i] != null && table[i] != DELETED) {
+            if (key.equals(table[i].key)) {
+                table[i].value = value; // Update existing
+                return;
+            }
+            i = (i + 1) % m;
+            if (i == start) return; // Table is full
         }
 
-        i=(i%m)+1;
-        if(i==start){
-            return;
-        }
-
-        table[i]=new KeyValue(key,value);
+        // Use first deleted slot if found
+        table[i] = new KeyValue(key, value);
         size++;
     }
 
     public String lookup(String key) {
+        if (key == null) return null;
+
         int i = hash(key);
         int start = i;
-        while (table[i]!=null) {
-            if (table[i].key.equals(key)) {
+
+        while (table[i] != null) {
+            if (table[i] != DELETED && key.equals(table[i].key)) {
                 return table[i].value;
             }
-            i=(i%m)+1;
-            if(i==start){
-                break;
-            }
-
+            i = (i + 1) % m;
+            if (i == start) break;
         }
         return null;
     }
-    public String remove(String key) {
+
+    public void delete(String key) {
+        if (key == null) return;
+
         int i = hash(key);
         int start = i;
 
-        while (table[i]!=null) {
-            if(table[i].key.equals(key)){
-                String val=table[i].value;
-                table[i]=null;
+        while (table[i] != null) {
+            if (table[i] != DELETED && key.equals(table[i].key)) {
+                table[i] = DELETED; // Mark as deleted
                 size--;
-                return val;
+                return;
             }
-
-            i = (i % m) + 1;
-            if (i == start) {
-                break;
-            }
+            i = (i + 1) % m;
+            if (i == start) break;
         }
-        return null;
+    }
+
+    public int size() {
+        return size;
     }
 }
