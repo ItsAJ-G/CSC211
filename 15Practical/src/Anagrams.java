@@ -53,6 +53,25 @@ public class Anagrams {
             anagramGroups.computeIfAbsent(sig,k->new ArrayList<>().add(word));
         }
 
+        List<String> anagramLines=new ArrayList<>();
+        for (List<String> group : anagramGroups.values()) {
+            if(group.size()>1){
+                StringBuilder sb=new StringBuilder();
+                for(int i=0;i<group.size();i++){
+                    if(i>0) sb.append(" ");
+                    sb.append(group.get(i));
+                }
+                String anagram=sb.toString();
 
+                anagramLines.add(anagramList+"\\\\");
+                for (int r = 0; r < group.size()-1; r++) {
+                    int space=anagramList.indexOf(' ');
+                    anagramList=anagramList.substring(space+1)+' '+
+                            anagramList.substring(0,space);
+                    anagramLines.add(anagramList+"\\\\");
+                }
+            }
+        }
+        Collections.sort(anagramLines);
     }
 }
