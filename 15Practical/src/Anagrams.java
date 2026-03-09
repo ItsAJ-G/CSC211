@@ -23,5 +23,14 @@ public class Anagrams {
         return word.substring(start,end);
     }
 
+    public static void main(String[] args) throws IOException {
+        if (args.length != 1) {
+            System.out.println("Usage: java Anagrams <joyce1922_ulysses.text>");
+            System.exit(1);
+        }
+        String inputFile = args[0];
+        System.out.println("Input file: " + inputFile);
 
+
+    }
 }
