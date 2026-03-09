@@ -1,77 +1,78 @@
-import java.nio.*;
-import java.nio.charset.Charset;
-import java.util.*;
 import java.io.*;
-
+import java.util.*;
 public class Anagrams {
+    public static void main(String[] args) {
 
-    static String signature(String word) {
-        char[] arr = word.toCharArray();
-        Arrays.sort(arr);
-        return new String(arr);
-    }
+        HashMap<String, HashSet<String>> D = new HashMap<>();
 
-    static String stripPunctuation(String word) {
-        String punctuation = "[]0123456789(,.:;_.-?!)";
-        int start = 0;
-        int end = word.length();
-        while (start < end && punctuation.indexOf(word.charAt(start)) >= 0) {
-            start++;
-        }
-        while (end > start && punctuation.indexOf(word.charAt(end - 1)) >= 0) {
-            end--;
-        }
-        return word.substring(start, end);
-    }
+        try{
 
-    public static void main(String[] args) throws IOException {
-        if (args.length != 1) {
-            System.out.println("Usage: java Anagrams <joyce1922_ulysses.text>");
-            System.exit(1);
-        }
-        String inputFile = args[0];
-        System.out.println("Input file: " + inputFile);
-
-        Map<String, Integer> wordCount = new LinkedHashMap<>();
-        try (BufferedReader br = new BufferedReader(
-                new InputStreamReader(new FileInputStream("joyce1922_ulysses.text"),
-                        Charset.forName("ISO-8859-1")))) {
+            BufferedReader reader = new BufferedReader(new FileReader("joyce1922_ulysses.text"));
             String line;
-            while ((line = br.readLine()) != null) {
-                String[] tokens = line.split("\\s+");
-                for (String token : tokens) {
-                    String w = stripPunctuation(token);
-                    if (!w.isEmpty()) {
-                        wordCount.merge(w, 1, Integer::sum);
+
+            while ((line = reader.readLine()) != null){
+
+                String[] words = line.split("\\s+");
+
+                for (String word : words){
+
+                    //clean word (Leave apostrophes)
+                    word = word.replaceAll("[^a-zA-Z']", "");
+                    word = word.toLowerCase();
+
+                    if (word.length() == 0){
+                        continue;
                     }
+
+                    // Create the Signature
+                    char[] chars = word.toCharArray();
+                    Arrays.sort(chars);
+                    String key =  new String(chars);
+
+                    //Insert into dictionary
+                    D.putIfAbsent(key, new HashSet<>());
+                    D.get(key).add(word);
                 }
             }
-        }
-        Map<String, List<String>> anagrams = new LinkedHashMap<>();
-        for (String word : wordCount.keySet()) {
-            String sig= signature(word);
-            anagramGroups.computeIfAbsent(sig,k->new ArrayList<>().add(word));
+            reader.close();
+
+
+        }catch (IOException e){
+            System.out.println("Error reading file");
+            e.printStackTrace();
+
         }
 
-        List<String> anagramLines=new ArrayList<>();
-        for (List<String> group : anagramGroups.values()) {
-            if(group.size()>1){
-                StringBuilder sb=new StringBuilder();
-                for(int i=0;i<group.size();i++){
-                    if(i>0) sb.append(" ");
-                    sb.append(group.get(i));
-                }
-                String anagram=sb.toString();
+//Print anagrams (Lists with more than 1 word)
+        for (String key : D.keySet()) {
 
-                anagramLines.add(anagramList+"\\\\");
-                for (int r = 0; r < group.size()-1; r++) {
-                    int space=anagramList.indexOf(' ');
-                    anagramList=anagramList.substring(space+1)+' '+
-                            anagramList.substring(0,space);
-                    anagramLines.add(anagramList+"\\\\");
-                }
+            HashSet<String> list = D.get(key);
+
+            if (list.size() > 1) {
+                System.out.println(key + " : " + list);
             }
         }
-        Collections.sort(anagramLines);
+
+
+        // Write Latex File
+        try{
+            PrintWriter writer = new PrintWriter("theAnagrams.tex");
+            writer.println("\\begin{verbatim}");
+
+
+
+            for (String key : D.keySet()) {
+                HashSet<String> list = D.get(key);
+                if (list.size() > 1) {
+                    writer.println(key + " : " + list);
+
+                }
+            }
+            writer.println("\\end{verbatim}");
+            writer.close();
+        }catch(Exception e){
+            System.out.println("Error writing to the latex file");
+        }
+
     }
 }
