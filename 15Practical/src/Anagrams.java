@@ -1,4 +1,5 @@
 import java.nio.*;
+import java.nio.charset.Charset;
 import java.util.*;
 import java.io.*;
 
@@ -31,6 +32,22 @@ public class Anagrams {
         String inputFile = args[0];
         System.out.println("Input file: " + inputFile);
 
-
+        Map<String,Integer> wordCount=new LinkedHashMap<>();
+        try (BufferedReader br = new BufferedReader(
+                new InputStreamReader(new FileInputStream("joyce1922_ulysses.text"),
+                        Charset.forName("ISO-8859-1")))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] tokens=line.split("\\s+");
+                for (String token : tokens) {
+                    String w=stripPunctuation(token);
+                    if(!w.isEmpty()) {
+                        wordCount.merge(w, 1, Integer::sum);
+                    }
+                }
+            }
+        }
     }
+
+
 }
