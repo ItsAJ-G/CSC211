@@ -17,4 +17,22 @@ public class tryHeapsort {
         arr[j] = temp;
     }
 
+    //Min-Heap: Shift down
+
+    static void shiftdown(String[] arr, int i, int size) {
+        int smallest = i;
+        int l=left(i);
+        int r=right(i);
+
+        if (l<size && arr[l].compareTo(arr[smallest]) < 0) {smallest=l;}
+        if (r<size && arr[r].compareTo(arr[smallest]) < 0) {smallest=r;}
+
+        if (smallest!=i) {
+            swap(arr, i, smallest);
+            shiftdown(arr, smallest, size);
+        }
+    }
+
+
+
 }
