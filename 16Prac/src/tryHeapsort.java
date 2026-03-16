@@ -93,4 +93,31 @@ public class tryHeapsort {
         br.close();
         return words.toArray(new String[0]);
     }
+
+    //Print first N words to verify
+
+    static void printFirst(String[] arr,int n){
+        for (int i = 0; i < Math.min(n, arr.length); i++) {
+            System.out.println(" "+arr[i]);
+        }
+    }
+
+    //Main method
+    public static void main(String[] args) throws IOException {
+        //(c) Testing with a small array first
+        String[] small={"mercedes","porshe","bmw","audi","nissan","mazda","buggati","ferrari","mustang"};
+        System.out.println("    Small Array Test      ");
+
+        String[] testBottomUp=small.clone();
+        buildHeapTopDown(testBottomUp);
+        String[] sorted=heapSort(testBottomUp.clone());
+        System.out.println("Bottom up sorted: ");
+        printFirst(testBottomUp,sorted.length);
+
+        String[] testTopDown=small.clone();
+        buildHeapTopDown(testTopDown);
+        String[] sortedTopDown=heapSort(testTopDown.clone());
+        System.out.println("Top Down sorted: ");
+        printFirst(testTopDown,sortedTopDown.length);
+    }
 }
