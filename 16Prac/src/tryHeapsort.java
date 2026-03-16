@@ -106,18 +106,47 @@ public class tryHeapsort {
     //Main method
     public static void main(String[] args) throws IOException {
         String[] small = {"mercedes","porshe","bmw","audi","nissan","mazda","buggati","ferrari","mustang"};
-        System.out.println("    Small Array Test      ");
+        System.out.println("=====Small Array Test======");
 
         String[] testBottomUp = small.clone();
         buildHeapBottomUp(testBottomUp);
         String[] sorted = heapSort(testBottomUp);
         System.out.println("Bottom up sorted: ");
-        printFirst(sorted, sorted.length);          // ← sorted, not testBottomUp
+        printFirst(sorted, sorted.length);
 
         String[] testTopDown = small.clone();
         buildHeapTopDown(testTopDown);
         String[] sortedTopDown = heapSort(testTopDown);
         System.out.println("Top Down sorted: ");
-        printFirst(sortedTopDown, sortedTopDown.length); // ← sortedTopDown, not testTopDown
+        printFirst(sortedTopDown, sortedTopDown.length);
+
+        //Loading Ulysses word from file
+        String[] words = loadWords("ulysses_words.txt");
+        System.out.println("\nUlysses words loaded: "+words.length);
+
+        //(a) Bottom-up timing
+        String [] bottomUpwords=words.clone();
+        long StartTimeBottomUp = System.nanoTime();
+        buildHeapTopDown(bottomUpwords);
+        String[] sortedBottomUp = heapSort(bottomUpwords);
+        long TimeBottomUp = System.nanoTime()-StartTimeBottomUp;
+
+        //(b)Top Down timing
+        String[] topdownwords=words.clone();
+        long StartTimeTopDown = System.nanoTime();
+        buildHeapTopDown(topdownwords);
+        String [] sortedTopdown = heapSort(topdownwords);
+        long TimeTopDown = System.nanoTime()-StartTimeTopDown;
+
+        //(c) displaying timings
+        System.out.println("\n=====Timing Results=====");
+        System.out.printf("Top-Down build + sort:  %,d ns(%.3f s)%n",TimeTopDown,TimeTopDown / 1e9);
+        System.out.printf("Bottom-Up build + sort: %,d ns(%.3f s)%n",TimeBottomUp,TimeBottomUp / 1e9);
+        System.out.printf("Difference:             %,d ns%n ",Math.abs(TimeBottomUp-TimeTopDown));
+
+        //Verify
+        int x=10;
+        System.out.println("\nFirst "+x+" sorted words(bottom up): " );
+        printFirst(sortedBottomUp, x);
     }
 }
