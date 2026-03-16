@@ -61,4 +61,36 @@ public class tryHeapsort {
             insertTopDown(arr, i);
         }
     }
+
+    //Heap Sort
+
+    static String[] heapSort(String[] arr) {
+        int n = arr.length;
+        String[] sorted = new String[n];
+
+        for (int i = 0; i < n; i++) {
+            sorted[i] = arr[0];
+            arr[0] = arr[n-1-i];
+            shiftdown(arr, 0, n-1-i);
+        }
+        return sorted;
+    }
+
+    //Load words from file
+
+    static String[] loadWords(String filename) throws IOException {
+        List<String> words = new ArrayList<>();
+        BufferedReader br = new BufferedReader(new FileReader(filename));
+        String line;
+        while ((line = br.readLine()) != null) {
+            for (String word : line.trim().split("\\s+")) {
+                if (!word.isEmpty()) {
+                    words.add(word.toLowerCase());
+                }
+            }
+
+        }
+        br.close();
+        return words.toArray(new String[0]);
+    }
 }
