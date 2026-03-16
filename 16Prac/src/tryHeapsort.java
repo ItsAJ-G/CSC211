@@ -70,8 +70,9 @@ public class tryHeapsort {
 
         for (int i = 0; i < n; i++) {
             sorted[i] = arr[0];
-            arr[0] = arr[n-1-i];
-            shiftdown(arr, 0, n-1-i);
+            arr[0] = arr[n - 1 - i];
+            arr[n - 1 - i] = "";
+            shiftdown(arr, 0, n - 1 - i);
         }
         return sorted;
     }
@@ -104,20 +105,19 @@ public class tryHeapsort {
 
     //Main method
     public static void main(String[] args) throws IOException {
-        //(c) Testing with a small array first
-        String[] small={"mercedes","porshe","bmw","audi","nissan","mazda","buggati","ferrari","mustang"};
+        String[] small = {"mercedes","porshe","bmw","audi","nissan","mazda","buggati","ferrari","mustang"};
         System.out.println("    Small Array Test      ");
 
-        String[] testBottomUp=small.clone();
-        buildHeapTopDown(testBottomUp);
-        String[] sorted=heapSort(testBottomUp.clone());
+        String[] testBottomUp = small.clone();
+        buildHeapBottomUp(testBottomUp);
+        String[] sorted = heapSort(testBottomUp);
         System.out.println("Bottom up sorted: ");
-        printFirst(testBottomUp,sorted.length);
+        printFirst(sorted, sorted.length);          // ← sorted, not testBottomUp
 
-        String[] testTopDown=small.clone();
+        String[] testTopDown = small.clone();
         buildHeapTopDown(testTopDown);
-        String[] sortedTopDown=heapSort(testTopDown.clone());
+        String[] sortedTopDown = heapSort(testTopDown);
         System.out.println("Top Down sorted: ");
-        printFirst(testTopDown,sortedTopDown.length);
+        printFirst(sortedTopDown, sortedTopDown.length); // ← sortedTopDown, not testTopDown
     }
 }
